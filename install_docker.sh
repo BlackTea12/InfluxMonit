@@ -43,12 +43,19 @@ docker --version
 docker-compose --version
 echo -e "\n\n------------------------------\n\n"
 
+echo -e "$INFO[INFO]$NC pulling docker images..."
+docker pull telegraf:1.19.3
+docker pull grafana/grafana:8.1.2
+docker pull influxdb:1.8-alpine
+
 echo -e "$INFO[INFO]$NC docker volume creating..."
 mkdir -p ~/.data/grafana
-mkdir -p ~/.data/grafana2/grafana.ini
+mkdir -p ~/.data/grafana2
 mkdir -p ~/.data/influx/config
 mkdir -p ~/.data/influxdb
-mkdir -p ~/.data/telegraf/telegraf.conf
+mkdir -p ~/.data/telegraf
+docker run --rm telegraf:1.19.3 telegraf config > ~/.data/telegraf/telegraf.conf
+docker run --rm --entrypoint /bin/sh grafana/grafana:8.1.2 -c "cat /etc/grafana/grafana.ini" > ~/.data/grafana2/grafana.ini
 
 echo -e "$INFO[INFO]$NC docker network creating..."
 docker network create --gateway 192.168.2.1 --subnet 192.168.2.0/24 influx-grafana
