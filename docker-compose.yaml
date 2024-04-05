@@ -1,0 +1,65 @@
+version: '3.6'
+
+networks:
+  network1:
+    name: influx-grafana
+    external: true
+
+services:
+  telegraf:
+    image: telegraf:1.19.3
+    container_name: telegraf
+    restart: always
+    volumes:
+    - ~/.data/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    depends_on:
+      - influxdb
+    links:
+      - influxdb
+    ports:
+    - '8125:8125'
+    networks:
+      network1:
+        ipv4_address: 192.168.2.103
+
+  influxdb:
+    image: influxdb:1.8-alpine
+    container_name: influx-server
+    restart: always
+    environment:
+      - INFLUXDB_DB=influx
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=adminadmin
+    ports:
+      - '8086:8086'
+    volumes:
+      - ~/.data/influxdb:/var/lib/influxdb
+      - ~/.data/influx/config:/etc/influxdb
+    networks:
+      network1:
+        ipv4_address: 192.168.2.102
+
+  grafana:
+    image: grafana/grafana:8.1.2
+    container_name: grafana
+    restart: always
+    depends_on:
+      - influxdb
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=adminadmin
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource
+    links:
+      - influxdb
+    ports:
+      - '3000:3000'
+    volumes:
+      - ~/.data/grafana:/var/lib/grafana
+      - ~/.data/grafana2/grafana.ini:/etc/grafana/grafana.ini
+    networks:
+      network1:
+        ipv4_address: 192.168.2.101
+      
+volumes:
+  grafana_data: {}
+  influxdb_data: {}

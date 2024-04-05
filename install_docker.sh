@@ -56,6 +56,7 @@ mkdir -p ~/.data/influxdb
 mkdir -p ~/.data/telegraf
 docker run --rm telegraf:1.19.3 telegraf config > ~/.data/telegraf/telegraf.conf
 docker run --rm --entrypoint /bin/sh grafana/grafana:8.1.2 -c "cat /etc/grafana/grafana.ini" > ~/.data/grafana2/grafana.ini
+sudo chown -R 472:472 ~/.data/grafana/
 
 echo -e "$INFO[INFO]$NC docker network creating..."
 docker network create --gateway 192.168.2.1 --subnet 192.168.2.0/24 influx-grafana
