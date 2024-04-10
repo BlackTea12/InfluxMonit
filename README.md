@@ -5,6 +5,8 @@ _This repository refers to the following links_
 
 * [:link: docker-compose.yaml](https://johncom.tistory.com/36)
 
+* [:link: design grafana](https://itprogramming119.tistory.com/entry/InfluxDB-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%A5%BC-Grafana%EC%97%90-%EC%8B%9C%EA%B0%81%ED%99%94%ED%95%98%EB%8A%94-%EC%98%88%EC%A0%9C)
+
 * https://github.com/influxdata/influxdata-docker/issues/349
   
 ## Problems
