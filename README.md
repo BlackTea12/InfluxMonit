@@ -23,3 +23,36 @@ It is not a completed project!
 ## Docker Start
 
     docker-compose up -d
+
+## entering running docker
+
+    docker exec -it <docker_name> bash
+
+### influx
+
+    # entering influx
+    influx
+    show databases;
+    use influxdb
+    
+To check your measurements, below list will be shown.
+
+    show measurements
+    # ----
+    # cpu
+    # disk
+    # diskio
+    # kernel
+    # mem
+    # processes
+    # procstat
+    # procstat_lookup
+    # swap
+    # system
+    ----
+
+## Grafanan Designs
+
+* memory
+
+        SELECT mean("available_percent") AS "AVAILABLE_PERCENT", mean("used_percent") AS "USED_PERCENT" FROM "mem" WHERE $timeFilter GROUP BY time($__interval) fill(null)
